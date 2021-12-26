@@ -1,24 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-
-function isNotLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) return next()
-  res.redirect('/login')
-}
+const { Post } = require("../models/Post");
 
 /* GET home page. */
-router.get('/', isNotLoggedIn, (req, res) => {
-  console.log('get art')
-  res.render("index", {messages:[
-    '1',
-    '2',
-    '3'
-  ]})
-})
+router.get("/", async (req, res) => {
+  const posts = await Post.find({});
+  res.render("home", { posts: posts });
+});
 
-router.get('/new', (req, res) => {
-  console.log('form')
-  res.render("form")
-})
+// router.get('/new', (req, res) => {
+//   console.log('form')
+//   res.render("form")
+// })
 
-module.exports = {path:"/",router};
+module.exports = { path: "/", router };

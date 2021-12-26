@@ -1,10 +1,155 @@
-<html dir="rtl">
-    <head>
-        <title>a</title>
-        <link rel="stylesheet" href="/libraries/bootstrap-5.1.3-dist/css/bootstrap.min.css">
-    </head>
-    <body>
-        <%- body %>
-    </body>
-    <script src="/libraries/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مصورة</title>
+    <!-- custom css link  -->
+    <link rel="stylesheet" href="/css/styles.css" />
+    <!-- custom css link  -->
+
+    <!-- owl courasel -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+      integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+      integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- owl courasel -->
+
+    <!-- bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+    <!-- jquery -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- jquery -->
+
+    <!-- bootstrap -->
+    <!-- search icon  -->
+    <script
+      src="https://kit.fontawesome.com/9cabe0c0a1.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- search icon  -->
+  </head>
+
+  <body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/"
+          ><img class="Logo" src="/images/TempLogo.png" alt="logo"
+        /></a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto">
+            <% if (locals.login === true) {%>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                aria-current="page"
+                href="/profile/<%= locals.user.username %> "
+              >
+                الملف الشخصي
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/logout"
+                >تسجيل الخروج
+              </a>
+            </li>
+            <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/register"
+                >التسجيل
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">تسجيل الدخول</a>
+            </li>
+            <% } %>
+            <li>
+              <div class="UploadImageLink mt-2">
+                <a href="/post/new">
+                  <img
+                    src="/images/UploadImage.png"
+                    alt=""
+                    width="30px"
+                    height="30px"
+                  />
+                </a>
+              </div>
+            </li>
+            <li>
+              <div class="search-box mb-3">
+                <input
+                  class="search-txt"
+                  type="search"
+                  name=""
+                  placeholder="اكتب للبحث"
+                />
+                <a class="search-btn" href="#">
+                  <i class="fas fa-search"></i>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- end of navbar -->
+
+    <% if (messages.error) { %>
+    <div class="alert alert-danger"><%= messages.error %></div>
+    <% } %> <%- body %>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+      integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="/js/mainFunctions.js"></script>
+  </body>
 </html>

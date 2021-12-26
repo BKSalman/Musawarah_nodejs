@@ -1,0 +1,377 @@
+@import url("https://fonts.googleapis.com/css2?family=Tajawal&display=swap");
+
+:root {
+  --main-background: #cde0ef;
+  --clr-primary-300: black;
+  --clr-primary-400: #4e4e4e; /* change this shit later */
+
+  --clr-neutral-100: rgb(125, 125, 125);
+  --clr-neutral-800: black;
+
+  --ff-primary: "Tajawal", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: var(--ff-primary);
+  margin: 0;
+}
+
+html,
+body {
+  /* background: var(--main-background); */
+  width: 100%;
+  /* height: 100%; */
+}
+
+/* Start of nav */
+/* 
+nav {
+  display: flex;
+  background-color: white;
+  width: 100%;
+  justify-content: space-between;
+  margin: 0 auto;
+  align-items: center;
+  padding: 10px 40px 10px 70px;
+  box-shadow: 3px 4px 4px rgb(198, 198, 209);
+}
+
+nav ul {
+  background-color: white;
+  display: flex;
+  list-style: none;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+nav ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+*/
+.Logo {
+  flex: 1;
+  width: 90px;
+  height: 90px;
+  cursor: pointer;
+  background-color: white;
+}
+/*
+nav ul div.items {
+  display: inline-flex;
+  background-color: white;
+  padding: 0 25px;
+}
+
+nav ul div.items a {
+  color: var(--clr-primary-400);
+  font-size: 18px;
+  text-decoration: none;
+  padding: 0 12px;
+}
+
+nav ul div.items li {
+  border-left: solid #d8e6f1;
+}
+
+li,
+a {
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: var(--clr-primary-300);
+  text-decoration: none;
+  background-color: white;
+}
+
+.items a {
+  transition: all 0.3s ease 0s;
+}
+
+.items a:hover {
+  color: #cde0ef;
+}
+*/
+/* Search stuff */
+
+.search-box {
+  margin-right: auto;
+  box-sizing: initial;
+  background: #d8e6f1;
+  height: 40px;
+  border-radius: 40px;
+  padding: 10px;
+}
+
+.search-btn {
+  box-sizing: initial;
+  display: flex;
+  color: white;
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-btn:hover {
+  color: black;
+}
+
+.search-txt {
+  height: 100%;
+  box-sizing: initial;
+  border: none;
+  background: none;
+  outline: none;
+  width: 7em;
+  padding: 0 6px;
+  color: var(--ff-primary);
+  font-family: var(--ff-primary);
+  font-size: 18px;
+  line-height: 40px;
+}
+
+@media screen and (min-width: 992px) {
+  .search-box {
+    margin-right: auto;
+    box-sizing: initial;
+    background: #d8e6f1;
+    height: 40px;
+    border-radius: 40px;
+    padding: 10px;
+  }
+
+  .search-box:hover > .search-txt {
+    width: 7em;
+    padding: 0 6px;
+    box-sizing: initial;
+  }
+
+  .search-btn {
+    box-sizing: initial;
+    display: flex;
+    color: white;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search-btn:hover {
+    color: black;
+  }
+
+  .search-txt {
+    height: 100%;
+    box-sizing: initial;
+    border: none;
+    background: none;
+    outline: none;
+    padding: 0;
+    color: var(--ff-primary);
+    font-family: var(--ff-primary);
+    font-size: 18px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+  }
+  .UploadImageLink {
+    margin-inline: 2em;
+  }
+}
+
+/* End of Search stuff */
+
+.UploadImageLink {
+  margin-left: 2em;
+  margin-bottom: 1em;
+}
+
+/* End of nav */
+
+ul,
+li {
+  list-style: none;
+}
+
+.gallery {
+  display: grid;
+  margin: auto;
+  gap: 0.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-auto-rows: 240px;
+}
+
+.gallery-item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0;
+}
+
+.gallery-item > img {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-height: 100%;
+  min-width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (min-width: 600px) {
+  .wide-item {
+    grid-column: span 2 / auto;
+  }
+  .tall-item {
+    grid-row: span 2 / auto;
+  }
+}
+
+@media screen and (max-width: 575px;) {
+  margin-right: 1rem;
+}
+
+/* pfp */
+.account-img {
+  display: block;
+  width: 120px;
+  height: 120px;
+}
+
+/* pfp */
+
+.post-date {
+  display: block;
+}
+
+/* Post details */
+
+.post-detail-Image {
+  max-width: 100%;
+}
+
+/* footer {
+  box-sizing: initial;
+  position: relative;
+  background-color: #ddd;
+  height: 300px;
+  margin-top: -300px;
+  clear: both;
+}
+
+.footer--content {
+  position: absolute;
+  text-decoration: none;
+  color: white;
+  background: transparent;
+  border: solid white;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  right: 50%;
+  bottom: 50%;
+  transform: translate(50%, 50%);
+  line-height: 100px;
+  text-align: center;
+} */
+
+/* footer end */
+
+/* comic chapters page */
+
+.chapters {
+  background-color: white;
+  width: 100%;
+  height: 1000px;
+}
+
+.chapters a {
+  font-size: 1rem;
+}
+
+.--chapters {
+  background-color: white;
+  max-height: 400px;
+  overflow-y: scroll;
+  float: right;
+  border-radius: 5px;
+  margin-inline: 0.00001em;
+}
+
+.chapters-list,
+.chapters-list a {
+  float: right;
+  color: var(--clr-neutral-800);
+  transition: all 0.3s ease 0s;
+}
+
+.chapters-list a:hover {
+  color: var(--clr-neutral-100);
+  /* margin-right: 3px; */
+}
+
+.chapters-list a:visited {
+  color: var(--clr-neutral-100);
+}
+
+.title-chapter-list {
+  font-weight: 800;
+  float: right;
+  color: var(--clr-neutral-800);
+}
+
+.left {
+  background: #ddd;
+}
+
+/* comic chapters page end */
+
+/* comic uploading  */
+
+.--adminUploadCard {
+  display: flex;
+  align-items: center;
+}
+
+.--adminUploadCardHeader {
+  width: 5em;
+  height: 5em;
+}
+
+.UploadImageInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.UploadImage {
+  width: 9em;
+  height: 9em;
+}
+.ImagePlacment {
+  position: relative;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#imgPreview {
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.fileTypes {
+  font-size: 14px;
+  direction: ltr;
+}
+
+/* comic uploading  end*/

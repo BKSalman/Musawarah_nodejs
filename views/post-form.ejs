@@ -1,0 +1,56 @@
+<section class="container first-row">
+  <form method="POST" action="/post/new" enctype="multipart/form-data">
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">منشور جديد</legend>
+      <div class="form-group">
+        <label for="titleInput">العنوان</label>
+        <input
+          type="text"
+          class="form-control"
+          id="titleInput"
+          name="postTitle"
+        />
+      </div>
+      <div class="form-group">
+        <label for="categorySelect">التصنيف</label>
+        <select class="form-control" id="categorySelect" name="postCategories">
+          <option>1</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imageInput">صورة المنشور</label>
+        <input
+          class="form-control"
+          type="file"
+          name="image"
+          id="imageInput"
+          accept="image/jpeg, image/png, image/jpg"
+        />
+      </div>
+      <div class="form-group">
+        <label for="descText">وصف المنشور</label>
+        <textarea
+          class="form-control"
+          id="descText"
+          rows="3"
+          name="postDesc"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="tagsInput">مواضيع الفن</label>
+        <input
+          type="text"
+          class="form-control"
+          id="tagsInput"
+          name="postTags"
+        />
+        <small class="form-text text-muted"
+          >هذا يساعد الناس في العثور على عملك الفني في متجر الفن.</small
+        >
+      </div>
+    </fieldset>
+    <div class="form-group">
+      <button class="btn btn-outline-info" type="submit">نشر</button>
+    </div>
+  </form>
+</section>

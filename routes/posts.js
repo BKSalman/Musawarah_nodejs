@@ -1,28 +1,47 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { Post } = require('../models/Post');
+const { Post } = require("../models/Post");
+const { User } = require("../models/User");
+const upload = require("../middleware/upload");
+const { isNotLoggedIn } = require("../middleware/userlogged");
 
-router.get('/', async (req, res) => {
-    console.log('get art')
-    const posts = await Post.find({})
-    res.render('posts', {posts:posts})
-})
+const postpath = "/post";
 
-router.get('/api', async (req, res) => {
-    console.log('get art')
-    const posts = await Post.find({})
-    return res.json(posts);
-})
+router.get("s/:id", async (req, res) => {
+  console.log("get art");
+  const post = await Post.findById(req.params.id);
+  user = req.user;
+  const postAuthor = await User.findById(post.postAuthor).exec();
 
+  res.render("post-details", {
+    post: post,
+    postAuthor: postAuthor,
+    user: user,
+  });
+});
 
-router.post('/', async (req, res) => {
-    console.log('post art')
-    console.log(req.body)
-    const title = req.body.title
-    const artist = req.body.artist
-    const post = new Post({title: title, artist: artist})
-    await post.save()
-    return res.json(post);
-})
+router.get("/new", isNotLoggedIn, async (req, res) => {
+  res.render("post-form");
+});
 
-module.exports = {path:"/posts",router};
+router.post("/new", isNotLoggedIn, upload, async (req, res) => {
+  try {
+    const title = req.body.postTitle;
+    const author = req.user._id;
+    const image = req.file.filename;
+    const desc = req.body.postDesc;
+    const post = new Post({
+      postTitle: title,
+      postAuthor: author,
+      desc: desc,
+      image: image,
+    });
+    await post.save();
+    res.redirect(`/`);
+  } catch (err) {
+    console.log(err);
+    res.redirect(`/`);
+  }
+});
+
+module.exports = { path: postpath, router };

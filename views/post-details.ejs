@@ -1,0 +1,25 @@
+<section class="second-row">
+  <div class="container-fluid p-0 mt-5">
+    <div class="post-detail-main container">
+      <a class="mr-2" href="/profile/<%= postAuthor.username %> "
+        ><%= postAuthor.displayname %></a
+      >
+      <h2 class="post-title"><%= post.postTitle %></h2>
+      <a class="post-detail" target="_blank" href="/uploads/post.image">
+        <img
+          class="post-detail-Image"
+          src="/uploads/<%= post.image %>"
+          alt=""
+        />
+      </a>
+      <p><%= post.desc %></p>
+      <% if (post.categories) { %> <% for( category of post.categories ) { %>
+      <p><%= category %></p>
+      <% } %> <% } %>
+      <small class="row post-date text-muted"> <%= post.createdAt %></small>
+      <%if (postAuthor === user) {%>
+      <a class="btn btn-danger mt-1 mb-1" href=""> احذف </a>
+      <% } %>
+    </div>
+  </div>
+</section>

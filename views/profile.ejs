@@ -1,12 +1,41 @@
 <div class="content-section container">
   <div class="media">
-    <img
-      class="rounded-circle account-img"
-      src="/images/ppL.png"
-    />
+    <img class="rounded-circle account-img" src="/uploads/<%= user.image %> " />
     <div class="media-body">
-      <h2 class="account-heading"><%= user.username %> </h2>
+      <h2 class="account-heading"><%= user.displayname %></h2>
+      <p class="text-secondary"><%= user.username %></p>
       <p class="text-secondary"><%= user.email %></p>
+      <button class="btn btn-outline-info">عدّل ملفك الشخصي</button>
+      <form method="POST" action="/profile" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="displayNameInput">اسم المستخدم</label>
+          <input
+            class="form-control"
+            type="text"
+            name="displayName"
+            id="displayNameInput"
+            value="<%= user.displayname %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="imageInput">الصورة الشخصية</label>
+          <input
+            class="form-control"
+            type="file"
+            name="image"
+            id="imageInput"
+            accept="image/jpg, image/png"
+          />
+        </div>
+        <button type="submit" class="btn btn-outline-info mt-3">Submit</button>
+      </form>
+    </div>
+    <div class="gallery mt-5">
+      <% if (posts) { %> <% for (post of posts) { %>
+      <a class="gallery-item" href="/post/<%= post._id %>"
+        ><img src="/uploads/<%= post.image %>" alt=""
+      /></a>
+      <% } %> <% } %>
     </div>
   </div>
 </div>
