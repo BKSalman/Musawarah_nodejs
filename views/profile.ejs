@@ -1,0 +1,43 @@
+<div class="content-section container">
+  <div class="media">
+    <img class="rounded-circle account-img" src="/uploads/<%= profileuser.image %> " />
+    <div class="media-body">
+      <h2 class="account-heading"><%= profileuser.displayName %></h2>
+      <p class="text-secondary"><%= profileuser.username %></p>
+      <p class="text-secondary"><%= profileuser.email %></p>
+      <% if (user && user.id === profileuser.id) { %>
+        <button class="btn btn-outline-info">عدّل ملفك الشخصي</button>
+        <form method="POST" action="/profile" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="displayNameInput">اسم المستخدم</label>
+            <input
+            class="form-control"
+            type="text"
+            name="displayName"
+            id="displayNameInput"
+            value="<%= profileuser.displayName %>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="imageInput">الصورة الشخصية</label>
+            <input
+            class="form-control"
+            type="file"
+            name="image"
+            id="imageInput"
+            accept="image/jpg, image/png"
+            />
+          </div>
+          <button type="submit" class="btn btn-outline-info mt-3">Submit</button>
+        </form>
+        <% } %>
+      </div>
+      <div class="gallery mt-5">
+        <% if (posts) { %> <% for (post of posts) { %>
+      <a class="gallery-item" href="/post/s/<%= post._id %>"
+        ><img src="/uploads/<%= post.postImage %>" alt=""
+      /></a>
+      <% } %> <% } %>
+    </div>
+  </div>
+</div>

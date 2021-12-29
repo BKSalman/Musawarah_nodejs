@@ -1,0 +1,29 @@
+<section class="container first-row">
+  <form method="POST" action="/search">
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">البحث</legend>
+    </fieldset>
+    <div class="search-box-search-page mb-3">
+      <input
+          type="text"
+          class="search-txt-search-page"
+          id="searchInput"
+          name="search"
+        />
+      <button class="search-btn" type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </form>
+</section>
+<section class="second-row">
+  <div class="container-fluid p-0 mt-5">
+    <div class="gallery">
+      <% if (posts) { %> <% for (post of posts) { %>
+      <a class="gallery-item" href="/post/s/<%= post._id %>"
+        ><img src="/uploads/<%= post.postImage %>" alt=""
+      /></a>
+      <% } %> <% } %>
+    </div>
+  </div>
+</section>
