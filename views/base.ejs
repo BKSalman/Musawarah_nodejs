@@ -111,17 +111,19 @@
               </div>
             </li>
             <li>
-              <div class="search-box mb-3">
-                <input
-                  class="search-txt"
-                  type="search"
-                  name=""
-                  placeholder="اكتب للبحث"
-                />
-                <a class="search-btn" href="#">
-                  <i class="fas fa-search"></i>
-                </a>
-              </div>
+              <form action="/search" method="POST">
+                <div class="search-box mb-3">
+                  <input
+                    class="search-txt"
+                    type="search"
+                    name="search"
+                    placeholder="اكتب للبحث"
+                  />
+                  <button class="search-btn" type="submit">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </form>
             </li>
           </ul>
         </div>

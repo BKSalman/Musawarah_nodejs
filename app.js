@@ -11,6 +11,7 @@ const session = require("express-session");
 const passport = require("passport");
 const initializePassport = require("./middleware/passport-config");
 const { isLoggedIn } = require("./middleware/userlogged");
+const { errorHandler } = require("./controllers/errorHandler");
 require("dotenv").config({ path: ".env" });
 
 const app = express(),
@@ -62,6 +63,8 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
+// passport local login
+
 app.post(
   "/login",
   passport.authenticate("local", {
@@ -71,6 +74,8 @@ app.post(
     failureFlash: true,
   })
 );
+
+// getting all routers in the routes folder
 
 const routesFiles = fs
   .readdirSync("./routes")
@@ -87,14 +92,7 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`server running on port ${port}`);

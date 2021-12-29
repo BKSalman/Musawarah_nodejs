@@ -4,7 +4,7 @@ const mongoose = require("mongoose"),
 const postSchema = new Schema({
   postTitle: { type: String, required: true },
   postAuthor: { type: Schema.Types.ObjectId, required: true, ref: "users" },
-  categories: [
+  postCategories: [
     {
       type: Schema.Types.ObjectId,
       ref: "categories",
@@ -23,8 +23,8 @@ const postSchema = new Schema({
     },
   ],
   postTags: Array,
-  image: String,
-  desc: String,
+  postImage: String,
+  postDesc: String,
   createdAt: { type: Date, default: Date.now },
 });
 

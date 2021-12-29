@@ -2,8 +2,8 @@
   <div class="owl-carousel owl-theme">
     <% if (posts) { %> <% for (post of posts) { %>
     <div class="item">
-      <a href="/post/<%= post._id %>">
-        <img src="/uploads/<%= post.image %>" class="" />
+      <a href="/post/s/<%= post._id %>">
+        <img src="/uploads/<%= post.postImage %>" class="" />
       </a>
     </div>
     <% } %> <% } %>
@@ -13,8 +13,8 @@
   <div class="container-fluid p-0 mt-5">
     <div class="gallery">
       <% if (posts) { %> <% for (post of posts) { %>
-      <a class="gallery-item" href="/post/<%= post._id %>"
-        ><img src="/uploads/<%= post.image %>" alt=""
+      <a class="gallery-item" href="/post/s/<%= post._id %>"
+        ><img src="/uploads/<%= post.postImage %>" alt=""
       /></a>
       <% } %> <% } %>
     </div>

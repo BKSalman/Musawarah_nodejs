@@ -1,4 +1,3 @@
-const util = require("util");
 const multer = require("multer");
 
 const types = ["image/jpg", "image/jpeg", "image/png"];
@@ -22,5 +21,4 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage, fileFilter: fileFilter }).single(
   "image"
 );
-// const uploadFilesMiddleware = util.promisify(uploadFiles);
 module.exports = upload;
