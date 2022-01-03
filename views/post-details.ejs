@@ -22,10 +22,18 @@
           <p><%= category %></p>
         <% } %> 
       <% } %>
+
+      <div class="likes">
+        <button class="btn btn-outline-info like-button" onclick="actOnPost(event)"
+                data-post-id="<%= post.id %>"><% if (like) { %>Unlike<% } else {%> Like <% } %> 
+        </button>
+        <span id="likes-count-<%= post.id %>"><%= post.likes.length %></span>
+      </div>
+
       <small class="row post-date text-muted"> <%= post.createdAt %></small>  
       <% if (user && user.id === postAuthor.id) {%>
         <a class="btn btn-danger mt-1 mb-1" href="/post/delete/<%= post._id %>"> احذف </a>
-          <% } %>  
+          <% } %>
     </div>
   </div>
 </section>

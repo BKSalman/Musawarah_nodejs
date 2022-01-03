@@ -24,18 +24,33 @@ const newPost = async (req, res) => {
 const postDetails = async (req, res) => {
   const post = await Post.findById(req.params.id);
   user = req.user;
-  const postAuthor = await User.findById(post.postAuthor).exec();
-  res.render("post-details", {
-    post: post,
-    postAuthor: postAuthor,
-    user: user,
+  const postLikes = post.likes.map((Likes) => {
+    return Likes.user;
   });
+  const postAuthor = await User.findById(post.postAuthor).exec();
+  if (req.user && postLikes.includes(req.user.id)) {
+    const like = true;
+    return res.render("post-details", {
+      post: post,
+      postAuthor: postAuthor,
+      user: user,
+      like: like,
+    });
+  } else {
+    const like = false;
+    res.render("post-details", {
+      post: post,
+      postAuthor: postAuthor,
+      user: user,
+      like: like,
+    });
+  }
 };
 
 const deletePost = async (req, res) => {
-    console.log(req.params.id);
-    await Post.findByIdAndDelete(req.params.id);
-    res.redirect("/")
+  console.log(req.params.id);
+  await Post.findByIdAndDelete(req.params.id);
+  res.redirect("/");
 };
 
 module.exports = { newPost, postDetails, deletePost };

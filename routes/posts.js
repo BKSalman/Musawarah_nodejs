@@ -3,18 +3,21 @@ const router = express.Router();
 const upload = require("../middleware/upload");
 const { newPost, postDetails, deletePost } = require("../controllers/posts");
 const { isOwner } = require("../middleware/isOwner");
-const { isNotLoggedIn } = require("../middleware/userlogged");
+const { requiresLogin } = require("../middleware/userlogged");
+const { Like } = require("../controllers/likes");
 
 const postpath = "/post";
 
 router.get("/s/:id", postDetails);
 
-router.get("/new", isNotLoggedIn, async (req, res) => {
+router.get("/new", requiresLogin, async (req, res) => {
   res.render("post-form");
 });
 
-router.get("/delete/:id", isNotLoggedIn, isOwner, deletePost);
+router.get("/delete/:id", requiresLogin, isOwner, deletePost);
 
-router.post("/new", isNotLoggedIn, upload, newPost);
+router.post("/new", requiresLogin, upload, newPost);
+
+router.post("/like/:id", requiresLogin, Like);
 
 module.exports = { path: postpath, router };

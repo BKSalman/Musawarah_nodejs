@@ -7,8 +7,8 @@ const searchEngine = async (req, res) => {
       const user = await User.findOne({
             username: new RegExp(query, "i")
       })
-      console.log(user._id);
-    const posts = await Post.find(
+      if(user){
+        const posts = await Post.find(
       {
         $or: [
           {
@@ -20,6 +20,21 @@ const searchEngine = async (req, res) => {
         {
             postAuthor: user._id
           },
+        ],
+      },
+      {
+        __v: 0,
+      }
+    );}
+    const posts = await Post.find(
+      {
+        $or: [
+          {
+            postTitle: new RegExp(query, "i")
+        },
+        {
+            postDesc: new RegExp(query, "i")
+          }
         ],
       },
       {

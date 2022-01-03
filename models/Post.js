@@ -18,9 +18,12 @@ const postSchema = new Schema({
   ],
   likes: [
     {
-      username: String,
-      createdAt: { type: Date, default: Date.now },
+      user:{
+      type: Schema.Types.String,
+      ref: "users",
     },
+    createdAt: { type: Date, default: Date.now }
+  }
   ],
   postTags: Array,
   postImage: String,
