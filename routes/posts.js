@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/upload");
-const { newPost, postDetails, deletePost } = require("../controllers/posts");
+const { newPost, postDetails, deletePost, commentPOST, commentGET } = require("../controllers/posts");
 const { isOwner } = require("../middleware/isOwner");
 const { requiresLogin } = require("../middleware/userlogged");
 const { Like } = require("../controllers/likes");
@@ -14,10 +14,14 @@ router.get("/new", requiresLogin, async (req, res) => {
   res.render("post-form");
 });
 
+router.post("/new", commentPOST);
+
 router.get("/delete/:id", requiresLogin, isOwner, deletePost);
 
-router.post("/new", requiresLogin, upload, newPost);
-
 router.post("/like/:id", requiresLogin, Like);
+
+router.get("/comment/:id", requiresLogin, commentGET);
+
+router.post("/comment/:id", commentPOST);
 
 module.exports = { path: postpath, router };

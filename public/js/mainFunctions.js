@@ -46,7 +46,7 @@ const toggleButtonText = {
   }
 };
 
-const actOnPost = function (event) {
+const likePost = function (event) {
   const postId = event.target.dataset.postId;
   const action = event.target.textContent.trim();
   toggleButtonText[action](event.target);
@@ -59,3 +59,9 @@ const actOnPost = function (event) {
     console.log(err);
   });
 };
+
+// const commentPOST = (event) =>{
+//   const postId = event.target.dataset.postId
+//   const commentBody = document.getElementById("commentText").value
+//   axios.post(`/post/comment/${postId}`, { commentBody: commentBody })
+// }

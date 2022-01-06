@@ -1,0 +1,48 @@
+<section class="container first-row">
+  <form method="POST" action="/post/comment/<%= post.id %>" enctype="multipart/form-data">
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">التعليق</legend>
+
+      <div class="form-group">
+        <textarea
+        class="form-control"
+        id="commentText"
+        rows="3"
+        name="comment"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <input
+          class="form-control"
+          type="text"
+          name="commentTest"
+          id="testInput"
+        />
+      </div>
+
+      <!-- <div class="form-group">
+        <input
+          class="form-control"
+          type="file"
+          name="commentImage"
+          id="imageInput"
+          accept="image/jpeg, image/png, image/jpg"
+        />
+      </div> -->
+
+    </fieldset>
+    <div class="form-group mt-3">
+      <button class="btn btn-outline-info" type="submit">التعليق</button>
+    </div>
+  </form>
+</section>
+  <section class="second-row">
+    <div class="container-fluid p-0 mt-5">
+      <div class="">
+        <% if (comments) { %> <% for (comment of comments) { %>
+        <p><%= comment.commentBody %></p>
+        <% } %> <% } %>
+      </div>
+    </div>
+  </section>

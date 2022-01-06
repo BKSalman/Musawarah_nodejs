@@ -6,13 +6,13 @@ const postSchema = new Schema({
   postAuthor: { type: Schema.Types.ObjectId, required: true, ref: "users" },
   postCategories: [
     {
-      type: Schema.Types.ObjectId,
+      type: Schema.Types.String,
       ref: "categories",
     },
   ],
   postComments: [
     {
-      type: Schema.Types.ObjectId,
+      type: Schema.Types.String,
       ref: "comments",
     },
   ],

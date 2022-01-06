@@ -4,6 +4,13 @@
       <a class="mr-2" href="/profile/<%= postAuthor.username %> "
         ><%= postAuthor.displayName %></a
       >
+      <% if (user && user.id === postAuthor.id) {%>
+      <div>
+        <a class="btn btn-danger mt-1 mb-1" href="/post/delete/<%= post._id %>">
+          احذف
+        </a>
+      </div>
+      <% } %>
       <h2 class="post-title"><%= post.postTitle %></h2>
       <a
         class="post-detail"
@@ -17,23 +24,73 @@
         />
       </a>
       <p><%= post.postDesc %></p>
-      <% if (post.postCategories) { %>
-        <% for( category of post.postCategories ) { %>
-          <p><%= category %></p>
-        <% } %> 
-      <% } %>
+      <% if (post.postCategories) { %> <% for( category of post.postCategories )
+      { %>
+      <p><%= category %></p>
+      <% } %> <% } %>
 
       <div class="likes">
-        <button class="btn btn-outline-info like-button" onclick="actOnPost(event)"
-                data-post-id="<%= post.id %>"><% if (like) { %>Unlike<% } else {%> Like <% } %> 
+        <button
+          class="btn btn-outline-info like-button"
+          onclick="likePost(event)"
+          data-post-id="<%= post.id %>"
+        >
+          <% if (like) { %>Unlike<% } else {%> Like <% } %>
         </button>
-        <span id="likes-count-<%= post.id %>"><%= post.likes.length %></span>
+        <button class="likes-count" id="likes-count-<%= post.id %>"
+          data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+          >
+          <%= post.likes.length %>
+        </button>
       </div>
+      <!-- Modal -->
+      <div
+        class="modal"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button
+                dir="ltr"
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <% for (const postLiker of postLikers) { %>
+              <div class="modal-body">
+                <a href="/profile/<%= postLiker.username %>"><%= postLiker.displayName %></a>
+              </div>
+              <% } %>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
 
-      <small class="row post-date text-muted"> <%= post.createdAt %></small>  
-      <% if (user && user.id === postAuthor.id) {%>
-        <a class="btn btn-danger mt-1 mb-1" href="/post/delete/<%= post._id %>"> احذف </a>
-          <% } %>
+      <div>
+        <a
+            class="btn btn-outline-info comment-button"
+            href="/post/comment/<%= post.id %>"
+          >Comment</a>
+      </div>
+      
+      <small class="row post-date text-muted"><%= postDate %></small>
     </div>
   </div>
 </section>

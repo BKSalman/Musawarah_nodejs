@@ -5,7 +5,6 @@ const Like = async (req, res, next) => {
     return res.json({ isLoggedIn: !res.locals.isLoggedIn });
   }
   const action = req.body.action;
-  const post = await Post.findById(req.params.id).exec();
     if (action === "Like") {
       Post.findByIdAndUpdate(
         req.params.id,
@@ -23,7 +22,6 @@ const Like = async (req, res, next) => {
       });
       return
     }
-    res.locals.like = true
     Post.findByIdAndUpdate(req.params.id, {
       $pull: { likes: { user: req.user._id } },
     },
@@ -35,16 +33,5 @@ const Like = async (req, res, next) => {
     //   console.log(result)
     }});
   }
-
-// const Unlike = async (req, res) => {
-//   Post.findByIdAndUpdate(req.body.postId, {
-//     $pull: { likes: { user: req.user._id } },
-//   }).exec((err, result) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     console.log(result);
-//   });
-// };
 
 module.exports = { Like };
