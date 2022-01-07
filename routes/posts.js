@@ -20,8 +20,8 @@ router.get("/delete/:id", requiresLogin, isOwner, deletePost);
 
 router.post("/like/:id", requiresLogin, Like);
 
-router.get("/comment/:id", requiresLogin, commentGET);
+// router.get("/comment/:id", requiresLogin, commentGET);
 
-router.post("/comment/:id", commentPOST);
+router.post("/comment/:id", requiresLogin, upload, commentPOST);
 
 module.exports = { path: postpath, router };

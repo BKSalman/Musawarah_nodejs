@@ -30,20 +30,20 @@ $(".owl-carousel").owlCarousel({
 
 const updatePostStats = {
   Like: function (postId) {
-      document.querySelector('#likes-count-' + postId).textContent++;
+    document.querySelector("#likes-count-" + postId).textContent++;
   },
-  Unlike: function(postId) {
-      document.querySelector('#likes-count-' + postId).textContent--;
-  }
+  Unlike: function (postId) {
+    document.querySelector("#likes-count-" + postId).textContent--;
+  },
 };
 
 const toggleButtonText = {
-  Like: function(button) {
-      button.textContent = "Unlike";
+  Like: function (button) {
+    button.textContent = "Unlike";
   },
-  Unlike: function(button) {
-      button.textContent = "Like";
-  }
+  Unlike: function (button) {
+    button.textContent = "Like";
+  },
 };
 
 const likePost = function (event) {
@@ -51,17 +51,34 @@ const likePost = function (event) {
   const action = event.target.textContent.trim();
   toggleButtonText[action](event.target);
   updatePostStats[action](postId);
-  axios.post(`/post/like/${postId}`, { action: action, path: window.location.pathname }).then((data) => {
-    if(!data.isLoggedIn){
-      return window.location.replace("/login");
-    }
-  }).catch((err) => {
-    console.log(err);
-  });
+  axios
+    .post(`/post/like/${postId}`, {
+      action: action,
+      path: window.location.pathname,
+    })
+    .then((data) => {
+      if (!data.isLoggedIn) {
+        return window.location.replace("/login");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
-// const commentPOST = (event) =>{
-//   const postId = event.target.dataset.postId
-//   const commentBody = document.getElementById("commentText").value
-//   axios.post(`/post/comment/${postId}`, { commentBody: commentBody })
-// }
+const comment = () => {
+  const commentForm = document.getElementById("commentForm");
+  if (commentForm.style.display === "none") {
+    commentForm.style.display = "block";
+  } else {
+    commentForm.style.display = "none";
+  }
+};
+
+const commentPOST = () => {
+  const form = document.getElementById("commentForm");
+  const input = document.getElementById("hidden");
+  input.value = window.location.pathname;
+  form.appendChild(input);
+  form.submit();
+};

@@ -37,10 +37,12 @@
         >
           <% if (like) { %>Unlike<% } else {%> Like <% } %>
         </button>
-        <button class="likes-count" id="likes-count-<%= post.id %>"
+        <button
+          class="likes-count"
+          id="likes-count-<%= post.id %>"
           data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-          >
+          data-bs-target="#exampleModal"
+        >
           <%= post.likes.length %>
         </button>
       </div>
@@ -65,10 +67,12 @@
               ></button>
             </div>
             <% for (const postLiker of postLikers) { %>
-              <div class="modal-body">
-                <a href="/profile/<%= postLiker.username %>"><%= postLiker.displayName %></a>
-              </div>
-              <% } %>
+            <div class="modal-body">
+              <a href="/profile/<%= postLiker.username %>"
+                ><%= postLiker.displayName %></a
+              >
+            </div>
+            <% } %>
             <div class="modal-footer">
               <button
                 type="button"
@@ -83,14 +87,58 @@
       </div>
       <!-- Modal -->
 
-      <div>
-        <a
-            class="btn btn-outline-info comment-button"
-            href="/post/comment/<%= post.id %>"
-          >Comment</a>
-      </div>
-      
       <small class="row post-date text-muted"><%= postDate %></small>
+
+      <div>
+        <a href="#commentForm" class="btn btn-outline-info" onclick="comment()">Comment</a>
+      </div>
+      <section class="container">
+        <form
+          style="display: none"
+          id="commentForm"
+          method="POST"
+          action="/post/comment/<%= post.id %>"
+          enctype="multipart/form-data"
+        >
+          <fieldset class="form-group">
+            <input type="hidden" name="GETpath" id="hidden" value="/post/s/<%= post.id %>">
+            <legend class="border-bottom mb-4">التعليق</legend>
+
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                id="commentText"
+                rows="3"
+                name="comment"
+              ></textarea>
+            </div>
+
+            <div class="form-group mt-3">
+              <input
+                class="form-control"
+                type="file"
+                name="commentImage"
+                id="imageInput"
+                accept="image/jpeg, image/png, image/jpg"
+              />
+            </div>
+          </fieldset>
+          <div class="form-group mt-3">
+            <button class="btn btn-outline-info" type="submit">التعليق</button>
+          </div>
+        </form>
+      </section>
+      <section class="">
+        <div class="container-fluid p-0 mt-5">
+          <div class="">
+            <% if (comments) { %> <% for (comment of comments) { %>
+            <div class="card">
+              <p><%= comment.commentBody %></p>
+              </div>
+            <% } %> <% } %>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </section>

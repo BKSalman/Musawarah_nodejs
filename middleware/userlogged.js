@@ -3,17 +3,22 @@ const requiresLogin = (req, res, next) => {
     res.locals.isLoggedIn = true;
     return next();
   }
-  if (!req.body.path) {
+  if (req.method === "POST"){
+    if(!req.body.path){
+      req.session.returnTo = req.headers.referer
+      res.redirect("/login");
+      return next();
+    }
+    req.session.returnTo = req.body.path;
+    res.locals.isLoggedIn = false;
+    next();
+  }else{
     req.session.returnTo = req.originalUrl;
     req.body.path = undefined;
     res.locals.isLoggedIn = false;
     res.redirect("/login");
-    return next();
-  } else {
-    req.session.returnTo = req.body.path;
-    res.locals.isLoggedIn = false;
-    return next();
-  }
+    next();
+}
 };
 
 const isLoggedIn = (req, res, next) => {
