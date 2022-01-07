@@ -14,7 +14,7 @@ router.get("/new", requiresLogin, async (req, res) => {
   res.render("post-form");
 });
 
-router.post("/new", commentPOST);
+router.post("/new", requiresLogin, upload, newPost);
 
 router.get("/delete/:id", requiresLogin, isOwner, deletePost);
 
