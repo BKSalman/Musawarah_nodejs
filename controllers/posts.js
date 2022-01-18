@@ -1,82 +1,87 @@
 const { Post } = require("../models/Post");
 const { Comment } = require("../models/Comment");
+const { Category } = require("../models/Category");
 const { User } = require("../models/User");
+
+const postForm = async (req, res) => {
+	const categories = await Category.find()
+	res.render("post-form", {categories});
+  }
 
 const newPost = async (req, res) => {
   try {
     const title = req.body.postTitle;
     const author = req.user.id;
     const image = req.file.filename;
-    const desc = req.body.postDesc;
+	const desc = req.body.postDesc;
+	const categories = req.body.postCategories;
     const post = new Post({
       postTitle: title,
       postAuthor: author,
       postDesc: desc,
       postImage: image,
+	  postCategories: categories,
     });
     await post.save();
-    res.redirect(`/`);
+    return res.redirect(`/`);
   } catch (err) {
     console.log(err);
-    res.redirect(`/`);
+    return res.redirect(`/`);
   }
 };
 
 const postDetails = async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  user = req.user;
-  const postLikes = post.likes.map((Likes) => {
-    return Likes.user;
-  });
-  const date = new Date(post.createdAt);
-  const postDate = date.toDateString();
-  const postAuthor = await User.findById(post.postAuthor).exec();
-  const postLikers = await User.find({ id: postLikes });
-  let comments = undefined;
-  if (post.postComments) {
-    comments = await Comment.find({postId: post.id}).exec()
-  }
-  if (req.user && postLikes.includes(req.user.id)) {
-    const like = true;
-    return res.render("post-details", {
-      post: post,
-      postDate: postDate,
-      postAuthor: postAuthor,
-      user: user,
-      like: like,
-      postLikers: postLikers,
-      postLikes: postLikes,
-      comments: comments,
-    });
-  } else {
-    const like = false;
-    res.render("post-details", {
-      post: post,
-      postDate: postDate,
-      postAuthor: postAuthor,
-      user: user,
-      like: like,
-      postLikers: postLikers,
-      postLikes: postLikes,
-      comments: comments,
-    });
-  }
-
+	const post = await Post.findById(req.params.id)
+	.populate("postAuthor")
+	.populate("likes.user")
+	const user = req.user;
+	let Liked = false
+	let fav = false
+	const postLikes = post.likes.map((Likes) => {
+		return Likes.user;
+	});
+	const date = new Date(post.createdAt);
+	const postDate = date.toDateString();
+	// const postAuthor = await User.findById(post.postAuthor).exec()
+	// const postLikers = await User.find({ id: postLikes }) 
+	let comments = undefined;
+	if (post.postComments) {
+		comments = await Comment.find({postId: post.id}).populate("commentAuthorId").exec()
+	}
+  	for(const postLike of postLikes){
+		if(user && postLike.id === user.id){
+			Liked = true
+			break
+		} else {
+			Liked = false
+		}
+    }
+	if(user){
+		const favposts = user.favoritePosts
+		for(const favpost of favposts){
+			if(favpost == post.id){
+				fav = true
+				break
+			} else {
+				fav = false
+			}
+		}
+	}
+	
+	return res.render("post-details", {
+	post: post,
+	postDate: postDate,
+	user: user,
+	like: Liked,
+	fav: fav,
+	postLikes: postLikes,
+	comments: comments,
+	});
 };
 
 const deletePost = async (req, res) => {
   await Post.findByIdAndDelete(req.params.id);
-  res.redirect("/");
-};
-
-const commentGET = async (req, res) => {
-  const post = await Post.findOne({ id: req.params.id });
-  if (post.postComments) {
-    const comments = await Comment.find({postId: post.id}).exec()
-    return res.render("comment-form", { post: post, comments: comments });
-  }
-  const comments = undefined;
-  res.render("comment-form", { post: post, comments: comments });
+  return res.redirect("/");
 };
 
 const commentPOST = async (req, res) => {
@@ -108,7 +113,7 @@ const commentPOST = async (req, res) => {
       {id: postId},
       { $push: { postComments: resComment.id } }
       ).exec()
-    res.redirect(`/post/s/${postId}`);
+	  return res.redirect(`/post/s/${postId}`);
     
   } else {
     if(req.file){
@@ -124,11 +129,40 @@ const commentPOST = async (req, res) => {
         ).exec()
       return res.redirect(`/post/s/${postId}`);
     }
-    res.redirect(`/post/s/${postId}`);
+    return res.redirect(`/post/s/${postId}`);
   }
   
   }
 
 };
 
-module.exports = { newPost, postDetails, deletePost, commentGET, commentPOST };
+const favPost = async (req, res) =>{
+	const postId = req.params.id
+	const action = req.body.action
+	if(action === "Fav"){
+		await User.findByIdAndUpdate(
+			req.user.id,
+			{
+				$push:{
+					favoritePosts: postId
+				}
+			}).catch(err => console.log(err))
+			return
+	}
+		await User.findByIdAndUpdate(
+			req.user.id,
+			{
+				$pull:{
+					favoritePosts: postId
+				}
+			}).catch(err => console.log(err))
+}
+
+module.exports = { 
+		newPost,
+		postDetails,
+		deletePost,
+		commentPOST,
+		postForm,
+		favPost 
+	};

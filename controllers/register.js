@@ -12,7 +12,7 @@ const newUser = async (req, res) => {
     password: hashedPassword,
   });
   user.save();
-  res.redirect("/login");
+  return res.redirect("/login");
 };
 
 module.exports = { newUser };

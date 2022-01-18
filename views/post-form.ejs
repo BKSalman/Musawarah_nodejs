@@ -14,7 +14,12 @@
       <div class="form-group">
         <label for="categorySelect">التصنيف</label>
         <select class="form-control" id="categorySelect" name="postCategories">
-          <option>1</option>
+			<option selected >اختر التصنيف</option>
+			<% if (categories) { %>
+				<% for( category of categories ) { %>
+					<option><%= category.name %> </option>
+				<% } %>
+			<% } %>
         </select>
       </div>
       <div class="form-group">
@@ -37,16 +42,19 @@
         ></textarea>
       </div>
       <div class="form-group">
-        <label for="tagsInput">مواضيع الفن</label>
-        <input
-          type="text"
-          class="form-control"
-          id="tagsInput"
-          name="postTags"
-        />
-        <small class="form-text text-muted"
-          >هذا يساعد الناس في العثور على عملك الفني في متجر الفن.</small
-        >
+		<label for="tagsInput">مواضيع الفن</label>
+        <div class="tag-container" id="tag-container">
+			<input
+			  type="text"
+			  class="form-control"
+			  id="tagsInput"
+			  name="postTags"
+			/>
+		</div>
+		<p class="message alert-message hidden"></p>
+        <small class="form-text text-muted">
+			هذا يساعد الناس في العثور على عملك الفني في متجر الفن.
+		</small>
       </div>
     </fieldset>
     <div class="form-group">

@@ -6,5 +6,5 @@ const categorySchema = new Schema({
 });
 
 module.exports = {
-  Post: mongoose.model("categories", categorySchema),
+  Category: mongoose.model("categories", categorySchema),
 };
