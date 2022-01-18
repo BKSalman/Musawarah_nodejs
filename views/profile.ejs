@@ -1,39 +1,212 @@
 <div class="content-section container">
   <div class="media">
-    <img class="rounded-circle account-img" src="/uploads/<%= profileuser.image %> " />
+    <img
+      class="rounded-circle account-img"
+      src="/uploads/<%= profileuser.image %> "
+    />
     <div class="media-body">
       <h2 class="account-heading"><%= profileuser.displayName %></h2>
       <p class="text-secondary"><%= profileuser.username %></p>
-      <p class="text-secondary"><%= profileuser.email %></p>
-      <% if (user && user.id === profileuser.id) { %>
-        <button class="btn btn-outline-info">عدّل ملفك الشخصي</button>
-        <form method="POST" action="/profile" enctype="multipart/form-data">
-          <div class="form-group">
-            <label for="displayNameInput">اسم المستخدم</label>
-            <input
-            class="form-control"
-            type="text"
-            name="displayName"
-            id="displayNameInput"
-            value="<%= profileuser.displayName %>"
-            />
+      <div class="follows d-inline-flex">
+        <div class="">
+          <button class="clean-link" 
+          data-bs-toggle="modal"
+          data-bs-target="#followersModal">
+          <span>متابِعًا</span>
+          <span id="followers-count-<%= profileuser.username %>"><%= profileuser.followers.length %></span></button>
+        </div>
+        <!-- Modal -->
+        <div
+          class="modal"
+          id="followersModal"
+          tabindex="-1"
+          aria-labelledby="followersModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="followersModalLabel">المتابِعون</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <% for ( follower of profileuser.followers) { %>
+                <p><%= follower %> </p>
+              <div class="modal-body">
+                <a href="/profile/<%= follower.user.username %>"
+                  ><img class="rounded-circle like-user-img" src="/uploads/<%= follower.user.image %>" alt="">
+                  </a>
+              </div>
+              <% } %>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="imageInput">الصورة الشخصية</label>
-            <input
-            class="form-control"
-            type="file"
-            name="image"
-            id="imageInput"
-            accept="image/jpg, image/png"
-            />
+        </div>
+        <!-- Modal -->
+        </div>
+        <div class="">
+          <button class="clean-link" 
+          data-bs-toggle="modal"
+          data-bs-target="#followingModal">
+          <span>متابَعًا</span>
+          <span><%= profileuser.following.length %></span></button>
+        </div>
+        <!-- Modal -->
+        <div
+          class="modal"
+          id="followingModal"
+          tabindex="-1"
+          aria-labelledby="followingModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="followingModalLabel">متابَع</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <% for ( following of profileuser.following) { %>
+              <div class="modal-body">
+                <a href="/profile/<%= following.user.username %>"
+                  ><img class="rounded-circle like-user-img" src="/uploads/<%= following.user.image %>" alt="">
+                  </a>
+              </div>
+              <% } %>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
-          <button type="submit" class="btn btn-outline-info mt-3">Submit</button>
-        </form>
-        <% } %>
+        </div>
+        <!-- Modal -->
+        </div>
       </div>
-      <div class="gallery mt-5">
-        <% if (posts) { %> <% for (post of posts) { %>
+      <p class="text-secondary"><%= profileuser.email %></p>
+      <% if (user && user.username === profileuser.username) { %>
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-outline-info"
+        data-bs-toggle="modal"
+        data-bs-target="#profileModal"
+      >
+      عدّل ملفك الشخصي
+      </button>
+      <a
+        class="btn btn-outline-info"
+		href="/i/fav"
+      >
+      المفضلة
+      </a>
+      <!-- Modal -->
+      <div
+        class="modal"
+        id="profileModal"
+        tabindex="-1"
+        aria-labelledby="profileModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="profileModalLabel">Modal title</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+
+            </button>
+            <form method="POST" action="/profile" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="displayNameInput">اسم المستخدم</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  name="displayName"
+                  id="displayNameInput"
+                  value="<%= profileuser.displayName %>"
+                />
+              </div>
+              <div class="form-group">
+                <label for="imageInput">الصورة الشخصية</label>
+                <input
+                  class="form-control"
+                  type="file"
+                  name="image"
+                  id="imageInput"
+                  accept="image/jpg, image/png"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-bs-dismiss="modal"
+              >
+              Close
+              <button type="submit" class="btn btn-outline-info">
+                Save changes
+              </button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+<!-- modal -->
+      <% } else { %>
+        <% if (Followed) { %>
+          <button
+          onclick="follow(event)"
+          class="btn btn-outline-info"
+          id="Follow-btn"
+          value="Unfollow"
+          data-user-username="<%= profileuser.username %>"
+        >
+        الغاء المتابعة
+        </button>
+        <% } else { %>
+      <button
+        onclick="follow(event)"
+        class="btn btn-outline-info"
+        id="Follow-btn"
+        value="Follow"
+        data-user-username="<%= profileuser.username %>"
+      >
+      تابع
+      </button>
+      <% } %>
+      <% } %>
+    </div>
+    <div class="gallery mt-5">
+      <% if (posts) { %> <% for (post of posts) { %>
       <a class="gallery-item" href="/post/s/<%= post._id %>"
         ><img src="/uploads/<%= post.postImage %>" alt=""
       /></a>

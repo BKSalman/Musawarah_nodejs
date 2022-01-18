@@ -6,7 +6,7 @@ const Like = async (req, res, next) => {
   }
   const action = req.body.action;
     if (action === "Like") {
-      Post.findByIdAndUpdate(
+      await Post.findByIdAndUpdate(
         req.params.id,
         {
           $push: { likes: { user: req.user._id } },
@@ -20,18 +20,20 @@ const Like = async (req, res, next) => {
         }
         // console.log(result)
       });
+	  console.log("Liked");
       return
     }
-    Post.findByIdAndUpdate(req.params.id, {
-      $pull: { likes: { user: req.user._id } },
+    await Post.findByIdAndUpdate(req.params.id, {
+		$pull: { likes: { user: req.user._id } },
     },
     {
-      new: true,
+		new: true,
     }).exec((err, result) => {
-      if (err) {
-        return console.log(err);
-    //   console.log(result)
-    }});
-  }
+		if (err) {
+			return console.log(err);
+			//   console.log(result)
+		}});
+		console.log("Unliked");
+	}
 
 module.exports = { Like };

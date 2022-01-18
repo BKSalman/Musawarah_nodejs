@@ -1,7 +1,7 @@
 const mongoose = require("mongoose"),
   { Schema } = require("mongoose");
 
-const DraftSchema = new Schema({
+const draftSchema = new Schema({
   draftName: String,
   draftBody: String,
   draftAuthorId: {
@@ -11,4 +11,6 @@ const DraftSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
-module.exports = mongoose.model("drafts", DraftSchema);
+module.exports = {
+	Draft: mongoose.model("drafts", draftSchema),
+};

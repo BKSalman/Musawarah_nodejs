@@ -1,17 +1,18 @@
 <section class="second-row">
   <div class="container-fluid p-0 mt-5">
     <div class="post-detail-main container">
-      <a class="mr-2" href="/profile/<%= postAuthor.username %> "
-        ><%= postAuthor.displayName %></a
-      >
-      <% if (user && user.id === postAuthor.id) {%>
+      <a class="clean-link mr-2" href="/profile/<%= post.postAuthor.username %> ">
+        <img class="rounded-circle author-img" src="/uploads/<%= post.postAuthor.image %> " alt="">
+        <%= post.postAuthor.displayName %>
+        </a>
+      <% if (user && user.id === post.postAuthor.id) {%>
       <div>
         <a class="btn btn-danger mt-1 mb-1" href="/post/delete/<%= post._id %>">
           احذف
         </a>
       </div>
       <% } %>
-      <h2 class="post-title"><%= post.postTitle %></h2>
+      <h2 class="post-title border-bottom"><%= post.postTitle %></h2>
       <a
         class="post-detail"
         target="_blank"
@@ -29,68 +30,78 @@
       <p><%= category %></p>
       <% } %> <% } %>
 
-      <div class="likes">
-        <button
-          class="btn btn-outline-info like-button"
-          onclick="likePost(event)"
-          data-post-id="<%= post.id %>"
+      <small class="row post-date text-muted"><%= postDate %></small>
+
+      <div class="d-flex justify-content-between">
+        <div class="likes">
+          <button
+            class="btn btn-outline-info like-button"
+            onclick="likePost(event)"
+            data-post-id="<%= post.id %>"
+          >
+            <% if (like) { %>Unlike<% } else {%> Like <% } %>
+          </button>
+          <button
+            class="clean-link"
+            id="likes-count-<%= post.id %>"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            <%= post.likes.length %>
+          </button>
+        </div>
+        <!-- Modal -->
+        <div
+          class="modal"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
         >
-          <% if (like) { %>Unlike<% } else {%> Like <% } %>
-        </button>
-        <button
-          class="likes-count"
-          id="likes-count-<%= post.id %>"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          <%= post.likes.length %>
-        </button>
-      </div>
-      <!-- Modal -->
-      <div
-        class="modal"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button
-                dir="ltr"
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <% for (const postLiker of postLikers) { %>
-            <div class="modal-body">
-              <a href="/profile/<%= postLiker.username %>"
-                ><%= postLiker.displayName %></a
-              >
-            </div>
-            <% } %>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button
+                  dir="ltr"
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <% for (postLiker of postLikes) { %>
+              <div class="modal-body">
+                <a href="/profile/<%= postLiker.username %>"
+                  ><img class="rounded-circle like-user-img" src="/uploads/<%= postLiker.image %>" alt="">
+                  </a>
+              </div>
+              <% } %>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Modal -->
-
-      <small class="row post-date text-muted"><%= postDate %></small>
-
-      <div>
-        <a href="#commentForm" class="btn btn-outline-info" onclick="comment()">Comment</a>
+        <!-- Modal -->
+		<div>
+			<button
+            class="btn btn-outline-info fav-button"
+            onclick="favPost(event)"
+            data-post-id="<%= post.id %>"
+			value="Fav"
+          ><% if (fav) { %>احذف من المفضلة<% } else {%> مفضلة <% } %></button>
+		</div>
+        <div>
+			<a href="#commentForm" class="btn btn-outline-info" onclick="comment()"
+			  >Comment</a>
+		</div>
       </div>
       <section class="container">
         <form
@@ -101,7 +112,6 @@
           enctype="multipart/form-data"
         >
           <fieldset class="form-group">
-            <input type="hidden" name="GETpath" id="hidden" value="/post/s/<%= post.id %>">
             <legend class="border-bottom mb-4">التعليق</legend>
 
             <div class="form-group">
@@ -133,8 +143,14 @@
           <div class="">
             <% if (comments) { %> <% for (comment of comments) { %>
             <div class="card">
+              <div class="user">
+                <a class="clean-link" href="/profile/<%= comment.commentAuthorId.username %>">
+                  <img class="rounded-circle comment-user-img" src="/uploads/<%= comment.commentAuthorId.image %>" alt="">
+                  <%= comment.commentAuthorId.displayName %>
+                </a>
+                </div>
               <p><%= comment.commentBody %></p>
-              </div>
+            </div>
             <% } %> <% } %>
           </div>
         </div>

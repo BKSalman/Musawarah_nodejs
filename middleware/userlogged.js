@@ -6,18 +6,16 @@ const requiresLogin = (req, res, next) => {
   if (req.method === "POST"){
     if(!req.body.path){
       req.session.returnTo = req.headers.referer
-      res.redirect("/login");
-      return next();
+      return res.redirect("/login");
     }
     req.session.returnTo = req.body.path;
     res.locals.isLoggedIn = false;
-    next();
-  }else{
+	return res.redirect("/login");
+  } else {
     req.session.returnTo = req.originalUrl;
     req.body.path = undefined;
     res.locals.isLoggedIn = false;
     res.redirect("/login");
-    next();
 }
 };
 

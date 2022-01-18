@@ -1,0 +1,22 @@
+<div class="content-section container">
+  <div class="media">
+    <img
+      class="rounded-circle account-img"
+      src="/uploads/<%= profileuser.image %> "
+    />
+    <div class="media-body">
+      <h2 class="account-heading"><%= profileuser.displayName %></h2>
+      <p class="text-secondary"><%= profileuser.username %></p>
+        </div>
+      </div>
+      <p class="text-secondary"><%= profileuser.email %></p>
+    </div>
+    <div class="gallery mt-5">
+      <% if (profileuser.favoritePosts) { %> <% for (favpost of profileuser.favoritePosts) { %>
+      <a class="gallery-item" href="/post/s/<%= favpost.id %>"
+        ><img src="/uploads/<%= favpost.postImage %>" alt=""
+      /></a>
+      <% } %> <% } %>
+    </div>
+  </div>
+</div>

@@ -41,25 +41,10 @@ const searchEngine = async (req, res) => {
         __v: 0,
       }
     );
-    res.render("search", { posts: posts });
+    return res.render("search", { posts: posts });
   } catch (err) {
     console.log(err);
   }
 };
 
 module.exports = { searchEngine };
-
-/* 
-const posts = await Post.find({
-    postTitle: {
-        "$regex": new RegExp(q)
-    }
-  },
-  {
-      _id: 0,
-      __v: 0
-  },(err, data) => {
-      res.render("search", { posts: data })
-  }
-  );
-*/

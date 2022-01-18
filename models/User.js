@@ -25,6 +25,30 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  followers: [
+    {
+      user:{
+      type: Schema.Types.String,
+      ref: "users",
+    },
+    followedAt: { type: Date, default: Date.now }
+  }
+  ],
+  following: [
+    {
+      user:{
+      type: Schema.Types.String,
+      ref: "users",
+    },
+    followedAt: { type: Date, default: Date.now }
+  }
+  ],
+  favoritePosts: [
+	  {
+		  type: Schema.Types.String,
+		  ref: "posts"
+	  }
+  ],
   is_active: {
     type: Boolean,
     default: true,

@@ -8,7 +8,7 @@ const isOwner = async (req, res, next) => {
     console.log(req.user.id);
     if (post && req.user && req.user.id == postAuthor.id){
       console.log(post.postAuthor);
-        next()
+	  return next()
     }
   };
 

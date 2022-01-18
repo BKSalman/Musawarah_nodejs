@@ -2,51 +2,132 @@ const { User } = require("../models/User");
 const { Post } = require("../models/Post");
 
 const viewProfile = async (req, res) => {
-  const user = await User.findOne({
+  const profileuser = await User.findOne({
     username: req.params.username.toLowerCase(),
-  }).exec();
-  if (user === []) {
+  }).select('-_id -__v -password')
+    .populate("followers.user")
+    .populate("following.user")
+    .exec();
+  let Followed = undefined;
+  const userFollowers = profileuser.followers.map((Follows) => {
+    return Follows.user;
+  });
+  if (req.user) {
+    for (const userFollower of userFollowers) {
+      if (userFollower.id === req.user.id) {
+        Followed = true;
+        break;
+      } else {
+        Followed = false;
+      }
+      console.log(Followed);
+    }
+  }
+  if (profileuser === []) {
     req.flash("error", "something went wrong.");
-    res.redirect("/");
+    return res.redirect("/");
   }
   const userPosts = await Post.find({
-    postAuthor: user._id,
+    postAuthor: profileuser._id,
   });
-  res.render("profile", { profileuser: user, posts: userPosts });
+  return res.render("profile", {
+    profileuser: profileuser,
+    posts: userPosts,
+    Followed: Followed,
+  });
 };
+
+const viewfav = async (req, res) => {
+	const profileuser = await User.findOne({
+	  username: req.user.username.toLowerCase(),
+	}).select('-_id -__v -password')
+	  .populate("followers.user")
+	  .populate("following.user")
+	  .populate("favoritePosts")
+	  .exec();
+	if (profileuser === []) {
+	  req.flash("error", "something went wrong.");
+	  return res.redirect("/");
+	}
+	return res.render("profile-favorite", {
+	  profileuser: profileuser,
+	});
+  };
 
 const updateProfile = async (req, res) => {
   try {
     if (req.file) {
       console.log(req.file.filename);
-       await User.findByIdAndUpdate(
-        req.user._id,
-        { displayName: req.body.displayName, image: req.file.filename }
-      );
-      res.redirect(`/profile/${req.user.username}`);
+      await User.findByIdAndUpdate(req.user._id, {
+        displayName: req.body.displayName,
+        image: req.file.filename,
+      });
+      return res.redirect(`/profile/${req.user.username}`);
     } else {
-       await User.findByIdAndUpdate(req.user._id,
-        { displayName: req.body.displayName }
-      );
-      res.redirect(`/profile/${req.user.username}`);
+      await User.findByIdAndUpdate(req.user._id, {
+        displayName: req.body.displayName,
+      });
+      return res.redirect(`/profile/${req.user.username}`);
     }
-  } catch (err){
+  } catch (err) {
     console.log(err);
-    res.redirect(`/profile/${req.user.username}`);
+    return res.redirect(`/profile/${req.user.username}`);
   }
 };
 
-/* async (req, res) =>{
-  const user = await User.findOneAndUpdate(
-    {_id:req.session.passport.user},
-    {name: req.body.username,
-        image: req.file.image}
-    )
-  console.log(req.file.image);
-} */
+const follow = async (req, res) => {
+  try {
+    const user = req.user;
+    const profileUser = await User.findOne({ username: req.params.username });
+    const action = req.body.action;
+    if (action === "Follow") {
+      await User.findByIdAndUpdate(
+        user.id,
+        {
+          $push: { following: { user: profileUser.id } },
+        },
+        {
+          new: true,
+        }
+      ).exec();
 
-// router.get('/', isNotLoggedIn, (req, res, next) => {
-//     res.render('profile', { user: req.user });
-// })
+      await profileUser
+        .updateOne(
+          {
+            $push: { followers: { user: user.id } },
+          },
+          {
+            new: true,
+          }
+        )
+        .exec();
+      return res.redirect(`/profile/${req.params.username}`);
+    }
+    await User.findByIdAndUpdate(
+      user.id,
+      {
+        $pull: { following: { user: profileUser.id } },
+      },
+      {
+        new: true,
+      }
+    ).exec();
 
-module.exports = { viewProfile, updateProfile };
+    await profileUser
+      .update(
+        {
+          $pull: { followers: { user: user.id } },
+        },
+        {
+          new: true,
+        }
+      )
+      .exec();
+	  return res.redirect(`/profile/${req.params.username}`);
+  } catch (error) {
+    console.log(error);
+    return res.redirect(`/profile/${req.params.username}`);
+  }
+};
+
+module.exports = { viewProfile, updateProfile, follow, viewfav };
