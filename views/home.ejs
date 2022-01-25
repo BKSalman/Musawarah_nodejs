@@ -9,18 +9,32 @@
     <% } %> <% } %>
   </div>
 </section>
-<section class="d-flex justify-content-evenly">
+<section class="mt-3 d-flex justify-content-evenly">
 	<div>
-		<a class="btn btn-outline-info" href="#">لك انت</a>
+		<button id="popular" class="btn btn-outline-info">
+			اشهر المنشورات
+		</button>
 	</div>
 	<div>
-		<a class="btn btn-outline-info" href="#">متابعة</a>
+		<button id="following" class="btn btn-outline-info">
+			متابعة
+		</button>
 	</div>
 </section>
 <section class="second-row">
-  <div class="container-fluid p-0 mt-5">
+  <div id="notChosen" class="followingPosts container-fluid p-0 mt-5">
     <div class="gallery">
       <% if (posts) { %> <% for (post of posts) { %>
+      <a class="gallery-item" href="/post/s/<%= post._id %>"
+        ><img src="/uploads/<%= post.postImage %>" alt=""
+      /></a>
+      <% } %> <% } %>
+    </div>
+  </div>
+  
+  <div id="chosen" class="popularPosts container-fluid p-0 mt-5">
+    <div class="gallery">
+      <% if (sortedPosts) { %> <% for (post of sortedPosts) { %>
       <a class="gallery-item" href="/post/s/<%= post._id %>"
         ><img src="/uploads/<%= post.postImage %>" alt=""
       /></a>

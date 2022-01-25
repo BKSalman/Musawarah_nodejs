@@ -187,7 +187,7 @@ const reachedMax = () => {
 	message.textContent = 'وصلت الى الحد الاقصى!'
 }
 
-input.addEventListener('keyup', (event) => {
+input?.addEventListener('keyup', (event) => {
 	if(event.key == 'Enter'){
 		if(input.value && !(tags.includes(input.value))) {
 			if(tags.length <= 5){
@@ -218,3 +218,27 @@ document.addEventListener('keypress', (e)=> {
 	}
 })
 
+// choosing following or most popular posts
+
+// const choosing = (elementId) => {
+// 	const chosen = document.getElementById('chosen')
+// 	chosen.setAttribute('id','notChosen')
+// 	const choice = document.getElementById(elementId)
+// 	choice.setAttribute('id','chosen')
+// }
+
+document.getElementById("popular")?.addEventListener('click', (event) => {
+	const choice = event.target.id
+	const popularElement = document.querySelector(".popularPosts")
+	const followingElement = document.querySelector(".followingPosts")
+	followingElement.setAttribute("id", "notChosen")
+	popularElement.setAttribute("id", "chosen")
+})
+
+document.getElementById("following")?.addEventListener('click', (event) => {
+	const choice = event.target.id
+	const popularElement = document.querySelector(".popularPosts")
+	const followingElement = document.querySelector(".followingPosts")
+	followingElement.setAttribute("id", "chosen")
+	popularElement.setAttribute("id", "notChosen")
+})

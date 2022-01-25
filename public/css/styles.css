@@ -337,6 +337,14 @@ li {
 	display: none;
 }
 
+#chosen {
+	display: block;
+}
+
+#notChosen {
+	display: none;
+}
+
 /* footer {
   box-sizing: initial;
   position: relative;
