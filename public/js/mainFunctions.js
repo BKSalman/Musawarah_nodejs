@@ -242,3 +242,15 @@ document.getElementById("following")?.addEventListener('click', (event) => {
 	followingElement.setAttribute("id", "chosen")
 	popularElement.setAttribute("id", "notChosen")
 })
+
+imagePreview.style.display = 'none'
+imageInput.onchange = evt => {
+	console.log(evt.target.files[0]);
+	const [file] = imageInput.files
+	if (file) {
+		imagePreview.src = URL.createObjectURL(file)
+		imagePreview.style.display = 'inline-block'
+	  return
+	}
+	imagePreview.style.display = 'none'
+  }
