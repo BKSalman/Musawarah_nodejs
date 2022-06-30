@@ -19,9 +19,9 @@ const requiresLogin = (req, res, next) => {
 }
 };
 
-const isLoggedIn = (req, res, next) => {
+const requiresLogout = (req, res, next) => {
   if (!req.isAuthenticated()) return next();
   res.redirect("/");
 };
 
-module.exports = { requiresLogin, isLoggedIn };
+module.exports = { requiresLogin, requiresLogout };

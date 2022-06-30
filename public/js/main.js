@@ -233,6 +233,9 @@ document.getElementById("popular")?.addEventListener('click', (event) => {
 	const followingElement = document.querySelector(".followingPosts")
 	followingElement.setAttribute("id", "notChosen")
 	popularElement.setAttribute("id", "chosen")
+  // certBtn.addEventListener('click', () => {
+  //   certImage.classList.toggle('hidden');
+  // }); do this later
 })
 
 document.getElementById("following")?.addEventListener('click', (event) => {
@@ -241,6 +244,9 @@ document.getElementById("following")?.addEventListener('click', (event) => {
 	const followingElement = document.querySelector(".followingPosts")
 	followingElement.setAttribute("id", "chosen")
 	popularElement.setAttribute("id", "notChosen")
+  // certBtn.addEventListener('click', () => {
+  //   certImage.classList.toggle('hidden');
+  // }); do this later
 })
 
 imagePreview.style.display = 'none'

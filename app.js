@@ -9,8 +9,8 @@ const expressLayouts = require("express-ejs-layouts");
 const flash = require("express-flash");
 const session = require("express-session");
 const passport = require("passport");
+const cors = require("cors");
 const initializePassport = require("./middleware/passport-config");
-const { isLoggedIn } = require("./middleware/userlogged");
 const { errorHandler } = require("./controllers/errorHandler");
 require("dotenv").config({ path: ".env" });
 
@@ -23,13 +23,12 @@ app.set("view engine", "ejs");
 app.set("layout", "base");
 
 app.use(flash());
-app.use(
-  session({
+app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-  })
-);
+  }));
+app.use(cors({origin: "http://localhost:3000",  credentials: true}));
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -54,27 +53,6 @@ app.use((req, res, next) => {
 
 connection();
 
-app.get("/login", isLoggedIn, (req, res) => {
-  res.render("login.ejs");
-});
-
-app.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
-});
-
-// passport local login
-
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successReturnToOrRedirect: "/",
-    successFlash: true,
-    failureRedirect: "/login",
-    failureFlash: true,
-  })
-);
-
 // getting all routers in the routes folder
 
 const routesFiles = fs
@@ -95,5 +73,5 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`server running on port ${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });

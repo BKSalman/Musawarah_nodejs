@@ -20,7 +20,7 @@ const Like = async (req, res, next) => {
         }
         // console.log(result)
       });
-	  console.log("Liked");
+	    console.log("Liked");
       return
     }
     await Post.findByIdAndUpdate(req.params.id, {

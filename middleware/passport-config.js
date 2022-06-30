@@ -1,4 +1,5 @@
 const LocalStrategy = require("passport-local").Strategy;
+// const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const bcrypt = require("bcrypt");
 const { User } = require("../models/User");
 
@@ -15,7 +16,7 @@ function initialize(passport) {
         if (err) {
           return done(err);
         }
-        if (result === true) {
+        if (result) {
           return done(null, user);
         } else {
           return done(null, false, { message: "Incorrect Password" });
@@ -23,6 +24,17 @@ function initialize(passport) {
       });
     });
   };
+	// passport.use(new GoogleStrategy({
+	// 	clientID: process.env.GOOGLE_CLIENT_ID,
+	// 	clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+	// 	callbackURL: "http://localhost:3000/auth/google/callback",
+	// 	},
+	// 	(accessToken, refreshToken, profile, cb) => {
+	// 		User.findOrCreate({googleId: profile.id}, (err, user) => {
+	// 			return cb(err, user);
+	// 		});
+	// 	}
+	// ));
   passport.use(new LocalStrategy({ usernameField: "email" }, authenticateUser));
   passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser((id, done) => {

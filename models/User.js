@@ -1,6 +1,6 @@
 const mongoose = require("mongoose"),
-  { Schema } = require("mongoose");
-const path = require("path");
+  { Schema } = require("mongoose"),
+  findOrCreate = require("mongoose-findorcreate");
 
 const userSchema = new Schema({
   username: {
@@ -58,6 +58,8 @@ const userSchema = new Schema({
     default: Date.now,
   },
 });
+
+userSchema.plugin(findOrCreate);
 
 module.exports = {
   User: mongoose.model("users", userSchema),
